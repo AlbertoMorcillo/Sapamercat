@@ -9,9 +9,10 @@ public class Main {
     public static void mostrarMenuInicial() {
         int opcio;
         do {
-            System.out.println("1. Comparar números y decir cúal de los dos es más grande (aaa el primero bbb el resto) ");
-            System.out.println("2. Calcular equación de segundo grado");
-            System.out.println("3. Ver un producto y calcular su precio total y modificarlo si es necesario");
+            System.out.println("--------MENU INICIAL--------");
+            System.out.println("1. Introduir producte");
+            System.out.println("2. Passar per caixa");
+            System.out.println("3. Mostrar carrito de compra");
             System.out.println("0. Acabar");
             System.out.print("\nElije qué quieres hacer: ");
 
@@ -20,8 +21,11 @@ public class Main {
             System.out.println();
             switch (opcio) {
                 case 1:
+                    mostrarMenuIntroducirProducto();
                     break;
                 case 2:
+                    break;
+                case 3:
                     break;
                 case 0:
                     break;
@@ -29,5 +33,36 @@ public class Main {
                     System.out.println("ATENCIÓ!!! \nHa de ser un valor entre 0 i 3"); //Cambiamos el mensaje de poner entre 0 i 5 a 0 i 3.
             }
         } while (opcio != 0);
+    }
+
+    public static void mostrarMenuIntroducirProducto() {
+        int opcionProducto;
+        do {
+            System.out.println("--------PRODUCTE--------");
+            System.out.println("Quin tipus de producte vols introduir?");
+            System.out.println("1. Alimentació");
+            System.out.println("2. Tèxtil");
+            System.out.println("3. Electrònica");
+            System.out.println("0. Tornar enrere");
+            System.out.print("\nElije qué quieres hacer: ");
+
+            opcionProducto = scan.nextInt();
+            scan.nextLine();
+            System.out.println();
+            switch (opcionProducto) {
+                case 1:
+
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 0:
+                    mostrarMenuInicial();
+                    break;
+                default:
+                    System.out.println("ATENCIÓ!!! \nHa de ser un valor entre 0 i 3"); //Cambiamos el mensaje de poner entre 0 i 5 a 0 i 3.
+            }
+        } while (opcionProducto != 0);
     }
 }
