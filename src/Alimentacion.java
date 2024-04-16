@@ -1,6 +1,6 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.time.temporal.ChronoUnit;// Importar la clase ChronoUnit. Sirve para calcular la diferencia entre dos fechas.
 
 public class Alimentacion extends Producto {
     private String dataCaducitat;
