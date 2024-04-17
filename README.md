@@ -1,6 +1,6 @@
 # Sapamercat
 
-##Clases##
+##Clases
 
 **Producto:** Esta es una clase abstracta que define las propiedades y métodos comunes a todos los productos. Las propiedades incluyen nombre, precio y codigoBarras. También declara un método abstracto calcularPrecio() que debe ser implementado por cada subclase de Producto. 
 
