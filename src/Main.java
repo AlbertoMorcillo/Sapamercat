@@ -77,7 +77,7 @@ public class Main {
         String nombre = scan.nextLine();
         System.out.print("Preu: ");
         double precio = scan.nextDouble();
-        scan.nextLine();  // Consume newline
+        scan.nextLine();
         System.out.print("Codi de barres: ");
         String codigo = scan.nextLine();
         System.out.print("Data de caducitat (dd/MM/yyyy): ");
@@ -93,7 +93,7 @@ public class Main {
         String nombre = scan.nextLine();
         System.out.print("Preu: ");
         double precio = scan.nextDouble();
-        scan.nextLine();  // Consume newline
+        scan.nextLine();
         System.out.print("Codi de barres: ");
         String codigo = scan.nextLine();
         System.out.print("Composició tèxtil: ");
@@ -109,12 +109,12 @@ public class Main {
         String nombre = scan.nextLine();
         System.out.print("Preu: ");
         double precio = scan.nextDouble();
-        scan.nextLine();  // Consume newline
+        scan.nextLine();
         System.out.print("Codi de barres: ");
         String codigo = scan.nextLine();
         System.out.print("Dies de garantia: ");
         int diasGarantia = scan.nextInt();
-        scan.nextLine();  // Consume newline
+        scan.nextLine();
 
         Electronica electronica = new Electronica(nombre, precio, codigo, diasGarantia);
         carroCompra.añadirProducto(electronica);

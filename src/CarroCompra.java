@@ -1,27 +1,31 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.text.DecimalFormat;
 
 public class CarroCompra {
     private Map<String, ProductoCarrito> productos;
-    private static final DecimalFormat decimalFormat = new DecimalFormat("#.00€");
+    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00'€'");
 
     public CarroCompra() {
         this.productos = new LinkedHashMap<>();
     }
 
     public void añadirProducto(Producto producto) {
-        // Utiliza el código de barras como clave para identificar productos únicos
         String clave = producto.getCodigoBarras();
-        if (productos.containsKey(clave)) {
-            productos.get(clave).incrementarCantidad();
+        // Si el producte és Textil, comprovar si ja existeix un amb el mateix codi de barres.
+        if (producto instanceof Textil && productos.containsKey(clave)) {
+            System.out.println("Ja existeix un producte textil amb aquest codi de barres en el carro.");
+            return;
+        }
+        if (productos.size() < 100) {
+            productos.put(clave, new ProductoCarrito(producto));
         } else {
-            if (productos.size() < 100) {
-                productos.put(clave, new ProductoCarrito(producto));
-            } else {
-                System.out.println("No es pot afegir més productes. El carro està ple.");
-            }
+            System.out.println("No es pot afegir més productes. El carro està ple.");
         }
     }
 
@@ -31,26 +35,30 @@ public class CarroCompra {
             return;
         }
 
-        // Mostra capçalera del tiquet
         System.out.println("SAPAMERCAT");
         System.out.println("Data: " + LocalDate.now());
-        double total = 0;
+        final double[] total = {0};
 
-        // Mostra el detall dels productes
-        for (ProductoCarrito item : productos.values()) {
-            Producto p = item.getProducto();
-            int cantidad = item.getCantidad();
+        // Crear una llista ordenada si es necessari.
+        List<ProductoCarrito> listaOrdenada = new ArrayList<>(productos.values());
+        // Ordenar si són productes textils
+        listaOrdenada.sort(Comparator.comparing((ProductoCarrito pc) -> {
+            Producto p = pc.getProducto();
+            return (p instanceof Textil) ? ((Textil) p).getComposicion() : "";
+        }));
+
+        // Utilitzar la llista ordenada per a mostrar els productes i calcular el total
+        listaOrdenada.forEach(productoCarrito -> {
+            Producto p = productoCarrito.getProducto();
+            int cantidad = productoCarrito.getCantidad();
             double precioUnitario = p.calcularPrecio();
             double precioTotal = precioUnitario * cantidad;
 
             System.out.println(p.getNombre() + " - " + cantidad + " unitat(s) - Preu unitari: " + decimalFormat.format(precioUnitario) + " - Preu total: " + decimalFormat.format(precioTotal));
-            total += precioTotal;
-        }
+            total[0] += precioTotal;
+        });
 
-        // Mostra total del tiquet
-        System.out.println("Total a pagar: " + decimalFormat.format(total));
-
-        // Buida el carretó
+        System.out.println("Total a pagar: " + decimalFormat.format(total[0]));
         vaciarCarro();
     }
 
@@ -60,10 +68,9 @@ public class CarroCompra {
             return;
         }
 
-        // Mostra només noms i quantitats
-        for (ProductoCarrito item : productos.values()) {
-            System.out.println(item.getProducto().getNombre() + " - " + item.getCantidad() + " unitat(s)");
-        }
+        productos.values().forEach(productoCarrito -> {
+            System.out.println(productoCarrito.getProducto().getNombre() + " - " + productoCarrito.getCantidad() + " unitat(s)");
+        });
     }
 
     private void vaciarCarro() {
