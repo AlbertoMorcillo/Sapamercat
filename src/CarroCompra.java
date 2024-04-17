@@ -1,17 +1,18 @@
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.text.DecimalFormat;
 
 public class CarroCompra {
-    //Usamos Map en lugar de List para poder acceder a los productos a través de su código de barras. Ya que cada producto es único.
     private Map<String, ProductoCarrito> productos;
+    private static final DecimalFormat decimalFormat = new DecimalFormat("#.00€");
 
     public CarroCompra() {
         this.productos = new LinkedHashMap<>();
     }
 
     public void añadirProducto(Producto producto) {
-        // Utiliza el código de barras como a clave para identificar productos unicos
+        // Utiliza el código de barras como clave para identificar productos únicos
         String clave = producto.getCodigoBarras();
         if (productos.containsKey(clave)) {
             productos.get(clave).incrementarCantidad();
@@ -39,13 +40,15 @@ public class CarroCompra {
         for (ProductoCarrito item : productos.values()) {
             Producto p = item.getProducto();
             int cantidad = item.getCantidad();
-            double precio = p.calcularPrecio();
-            double precioTotal = precio * cantidad;
-            System.out.println(p.getNombre() + " - " + cantidad + " unitat(s) - Preu unitari: " + precio + " - Preu total: " + precioTotal);
+            double precioUnitario = p.calcularPrecio();
+            double precioTotal = precioUnitario * cantidad;
+
+            System.out.println(p.getNombre() + " - " + cantidad + " unitat(s) - Preu unitari: " + decimalFormat.format(precioUnitario) + " - Preu total: " + decimalFormat.format(precioTotal));
             total += precioTotal;
         }
+
         // Mostra total del tiquet
-        System.out.println("Total a pagar: " + total);
+        System.out.println("Total a pagar: " + decimalFormat.format(total));
 
         // Buida el carretó
         vaciarCarro();
