@@ -1,6 +1,6 @@
 # Sapamercat
 
-##Clases
+## Clases
 
 **Producto:** Esta es una clase abstracta que define las propiedades y métodos comunes a todos los productos. Las propiedades incluyen nombre, precio y codigoBarras. También declara un método abstracto calcularPrecio() que debe ser implementado por cada subclase de Producto. 
 
@@ -17,7 +17,20 @@
 **Main:** Esta es la clase principal que contiene el método main(). Esta clase maneja la interacción con el usuario, mostrando menús y leyendo la entrada del usuario. Dependiendo de la entrada del usuario, llama a los métodos apropiados en las otras clases para realizar acciones como añadir productos al carrito o pasar por caja
 
 
-##Hashmap##
+## El uso de Hashmap
 
-He utilizado un map en la clase CarroCompra  porque necesitabamos rastrear la cantidad de cada produco único, así almacenabamos los productos con su cantidad correspondiente.
+He utilizado un map en la clase CarroCompra porque necesitabamos rastrear la cantidad de cada produco único, así almacenabamos los productos con su cantidad correspondiente.
+
+## El uso de DecimalFormat
+
+He utilizado el DecimalFormat en la clase carroCompra por ejemplo.
+
+**¿Por qué?**
+
+
+DecimalFormat es una clase de Java que proporciona un gran control sobre el formato de números decimales. Se puede usar para formatear números decimales para mostrarlos como strings con un número fijo de decimales, enmascarar números con patrones no numéricos como comas para miles, y permite localización.
+
+Por otro lado, Math.round() es una función que se utiliza para redondear los números a la unidad más cercana, pero por sí sola no te permite especificar el número de decimales a los que quieres redondear, y siempre devuelve un número entero.
+
+Para mostrar números con dos decimales podria combinar Math.round() con otra lógica para mover el punto decimal, pero esto creo que es más engorroso y propenso a errores. Por eso decidío buscar otra alternativa por internet y decían que el DecimalFormat era mejor para eso junto con el link de oracle: https://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html
 
