@@ -38,3 +38,28 @@ Para mostrar números con dos decimales podria combinar Math.round() con otra l�
 
 El método compare de esta clase se utiliza para determinar cómo se deben comparar dos objetos Producto.
 En este caso, los productos se comparan primero por su precio. Si dos productos tienen el mismo precio, entonces se comparan por su nombre.
+
+## En la clase Alimentacion, ¿por que hay una función diasHastaCaducidad?
+
+Lo hice para poder calcular cuantos días faltan para que caduque el producto y poderlo mostrar cuando el usuario busque
+por código de barras de forma completa.
+
+## ¿Por qué en el menú hay dos formas de buscar por código de barras?
+
+El 4 es para buscar el nombre del producto por código de barras usando stream como pedía el ejercicio.
+Sin embargo, el 5 es algo que hice yo extra que busca el produco por código de barras usando stream pero no solo muestra el nombre
+sino tambien muestra toda la información correspondiente del producto.
+
+## ¿Cómo buscar en base de código de barras?
+
+Cuando añades un producto nuevo pones el código de barras (ejemplo: 1234). Sin embargo, internamente se guarda:
+Si es alimento:
+A1234
+Si es Textil:
+T1234
+Si es Electrónica:
+E1234
+
+Tengo en cuenta para buscar por código de barras porque tendrás que añadir: A, T o E antes del código de barras para que pueda buscarlo correctamente.
+En nuestro ejemplo: A1234, T1234, E1234
+

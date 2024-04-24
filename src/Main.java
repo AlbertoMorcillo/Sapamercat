@@ -146,14 +146,23 @@ public class Main {
             double precioUnitario = producto.calcularPrecio();
             double precioTotal = precioUnitario * cantidad;
 
-            // Asumiendo que tienes un método que te dice el tipo de producto.
             String tipoProducto = CarroCompra.obtenerTipoProducto(producto);
+            String infoEspecifica = "";
+
+            if (producto instanceof Textil) {
+                infoEspecifica = "Composición textil: " + ((Textil) producto).getComposicion();
+            } else if (producto instanceof Electronica) {
+                infoEspecifica = "Días de garantía1: " + ((Electronica) producto).getDiasGarantia();
+            } else if (producto instanceof Alimentacion) {
+                infoEspecifica = "Días hasta caducidad: " + ((Alimentacion) producto).diasHastaCaducidad();
+            }
 
             System.out.println("Nombre del producto: " + producto.getNombre());
             System.out.println("Cantidad: " + cantidad);
             System.out.println("Tipo de producto: " + tipoProducto);
             System.out.println("Precio unitario: " + CarroCompra.decimalFormat.format(precioUnitario));
             System.out.println("Precio total: " + CarroCompra.decimalFormat.format(precioTotal));
+            System.out.println(infoEspecifica);
         } else {
             System.out.println("Producto no encontrado con el código de barras: " + codigo);
         }

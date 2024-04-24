@@ -34,6 +34,11 @@ public class Alimentacion extends Producto {
     public String getDataCaducitat() {
         return dataCaducitat;
     }
+    public int diasHastaCaducidad() {
+        LocalDate fechaCaducidad = LocalDate.parse(this.dataCaducitat, formatter);
+        LocalDate ahora = LocalDate.now();
+        return (int) ChronoUnit.DAYS.between(ahora, fechaCaducidad);
+    }
 
     public void setDataCaducitat(String dataCaducitat) {
         this.dataCaducitat = dataCaducitat;
