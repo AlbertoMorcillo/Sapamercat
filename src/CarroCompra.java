@@ -1,10 +1,10 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.text.DecimalFormat;
 
 public class CarroCompra {
@@ -17,7 +17,6 @@ public class CarroCompra {
 
     public void añadirProducto(Producto producto) {
         String clave = producto.getCodigoBarras();
-        // Si el producte és Textil, comprovar si ja existeix un amb el mateix codi de barres.
         if (producto instanceof Textil && productos.containsKey(clave)) {
             System.out.println("Ja existeix un producte textil amb aquest codi de barres en el carro.");
             return;
@@ -39,16 +38,27 @@ public class CarroCompra {
         System.out.println("Data: " + LocalDate.now());
         final double[] total = {0};
 
-        // Crear una llista ordenada si es necessari.
+        // Obtener la lista de productos del carro
         List<ProductoCarrito> listaOrdenada = new ArrayList<>(productos.values());
-        // Ordenar si són productes textils
-        listaOrdenada.sort(Comparator.comparing((ProductoCarrito pc) -> {
-            Producto p = pc.getProducto();
-            return (p instanceof Textil) ? ((Textil) p).getComposicion() : "";
-        }));
 
-        // Utilitzar la llista ordenada per a mostrar els productes i calcular el total
-        listaOrdenada.forEach(productoCarrito -> {
+        // Ordenar la lista de productos utilizando ProductoComparator
+        Collections.sort(listaOrdenada, new Comparator<ProductoCarrito>() {
+            @Override
+            public int compare(ProductoCarrito o1, ProductoCarrito o2) {
+                Producto p1 = o1.getProducto();
+                Producto p2 = o2.getProducto();
+                // Si ambos productos son de tipo Textil, delegamos la comparación al método compareTo de Textil
+                if (p1 instanceof Textil && p2 instanceof Textil) {
+                    return ((Textil) p1).compareTo((Textil) p2);
+                }
+                // En caso contrario, utilizamos el ProductoComparator para otros tipos de productos
+                return new ProductoComparator().compare(p1, p2);
+            }
+        });
+
+
+        // Utilizar la lista ordenada para mostrar los productos y calcular el total.
+        for (ProductoCarrito productoCarrito : listaOrdenada) {
             Producto p = productoCarrito.getProducto();
             int cantidad = productoCarrito.getCantidad();
             double precioUnitario = p.calcularPrecio();
@@ -56,7 +66,7 @@ public class CarroCompra {
 
             System.out.println(p.getNombre() + " - " + cantidad + " unitat(s) - Preu unitari: " + decimalFormat.format(precioUnitario) + " - Preu total: " + decimalFormat.format(precioTotal));
             total[0] += precioTotal;
-        });
+        }
 
         System.out.println("Total a pagar: " + decimalFormat.format(total[0]));
         vaciarCarro();
@@ -75,5 +85,17 @@ public class CarroCompra {
 
     private void vaciarCarro() {
         productos.clear();
+    }
+
+    // Clase interna para la comparación de productos
+    class ProductoComparator implements Comparator<Producto> {
+        @Override
+        public int compare(Producto p1, Producto p2) {
+            int precioCompare = Double.compare(p1.getPrecio(), p2.getPrecio());
+            if (precioCompare != 0) {
+                return precioCompare;
+            }
+            return p1.getNombre().compareTo(p2.getNombre());
+        }
     }
 }

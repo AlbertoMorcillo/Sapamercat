@@ -79,7 +79,7 @@ public class Main {
         double precio = scan.nextDouble();
         scan.nextLine();
         System.out.print("Codi de barres: ");
-        String codigo = scan.nextLine();
+        String codigo = "A" + scan.nextLine();
         System.out.print("Data de caducitat (dd/MM/yyyy): ");
         String dataCaducitat = scan.nextLine();
 
@@ -95,7 +95,7 @@ public class Main {
         double precio = scan.nextDouble();
         scan.nextLine();
         System.out.print("Codi de barres: ");
-        String codigo = scan.nextLine();
+        String codigo = "T" + scan.nextLine();
         System.out.print("Composició tèxtil: ");
         String composicion = scan.nextLine();
 
@@ -111,7 +111,7 @@ public class Main {
         double precio = scan.nextDouble();
         scan.nextLine();
         System.out.print("Codi de barres: ");
-        String codigo = scan.nextLine();
+        String codigo = "E" + scan.nextLine();
         System.out.print("Dies de garantia: ");
         int diasGarantia = scan.nextInt();
         scan.nextLine();

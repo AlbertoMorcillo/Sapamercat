@@ -34,3 +34,7 @@ Por otro lado, Math.round() es una función que se utiliza para redondear los n�
 
 Para mostrar números con dos decimales podria combinar Math.round() con otra lógica para mover el punto decimal, pero esto creo que es más engorroso y propenso a errores. Por eso decidío buscar otra alternativa por internet y decían que el DecimalFormat era mejor para eso junto con el link de oracle: https://docs.oracle.com/javase/8/docs/api/java/text/DecimalFormat.html
 
+## La clase comparador ProductoComparator
+
+El método compare de esta clase se utiliza para determinar cómo se deben comparar dos objetos Producto.
+En este caso, los productos se comparan primero por su precio. Si dos productos tienen el mismo precio, entonces se comparan por su nombre.
