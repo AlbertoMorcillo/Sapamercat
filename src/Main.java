@@ -15,6 +15,8 @@ public class Main {
             System.out.println("1. Introduir producte");
             System.out.println("2. Passar per caixa");
             System.out.println("3. Mostrar carrito de compra");
+            System.out.println("4. Buscar producte per codi de barres(se mostrará unicamente el nombre del producto)");
+            System.out.println("5. Buscar producte per codi de barres(se mostrará toda la información del producto)");
             System.out.println("0. Acabar");
             System.out.print("\nElije qué quieres hacer: ");
 
@@ -31,11 +33,17 @@ public class Main {
                 case 3:
                     carroCompra.mostrarCarro();
                     break;
+                case 4:
+                    buscarProductoPorCodigoBarras();
+                    break;
+                case 5:
+                    buscarProductoConMasInfoPorCodigoBarras();
+                    break;
                 case 0:
                     System.out.println("Sortint de l'aplicació...");
                     break;
                 default:
-                    System.out.println("ATENCIÓ!!! \nHa de ser un valor entre 0 i 3");
+                    System.out.println("ATENCIÓ!!! \nHa de ser un valor entre 0 i 4");
             }
         } while (opcion != 0);
     }
@@ -120,4 +128,35 @@ public class Main {
         carroCompra.añadirProducto(electronica);
         System.out.println("Producte afegit amb èxit.");
     }
+
+    private static void buscarProductoPorCodigoBarras() {
+        System.out.print("Introduce el código de barras del producto (Recuerda que tienes que poner al inicio la letra A si es alimentación, T si es textil y E es Electronica): ");
+        String codigo = scan.nextLine();
+        String nombreProducto = carroCompra.buscarNombrePorCodigoBarras(codigo);
+        System.out.println("Nombre del producto: " + nombreProducto);
+    }
+    private static void buscarProductoConMasInfoPorCodigoBarras() {
+        System.out.print("Introduce el código de barras del producto: ");
+        String codigo = scan.nextLine();
+        ProductoCarrito productoCarrito = carroCompra.buscarProductoPorCodigo(codigo);
+
+        if (productoCarrito != null) {
+            Producto producto = productoCarrito.getProducto();
+            int cantidad = productoCarrito.getCantidad();
+            double precioUnitario = producto.calcularPrecio();
+            double precioTotal = precioUnitario * cantidad;
+
+            // Asumiendo que tienes un método que te dice el tipo de producto.
+            String tipoProducto = CarroCompra.obtenerTipoProducto(producto);
+
+            System.out.println("Nombre del producto: " + producto.getNombre());
+            System.out.println("Cantidad: " + cantidad);
+            System.out.println("Tipo de producto: " + tipoProducto);
+            System.out.println("Precio unitario: " + CarroCompra.decimalFormat.format(precioUnitario));
+            System.out.println("Precio total: " + CarroCompra.decimalFormat.format(precioTotal));
+        } else {
+            System.out.println("Producto no encontrado con el código de barras: " + codigo);
+        }
+    }
+
 }

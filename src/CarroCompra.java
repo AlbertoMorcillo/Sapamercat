@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 
 public class CarroCompra {
     private Map<String, ProductoCarrito> productos;
-    private static final DecimalFormat decimalFormat = new DecimalFormat("0.00'€'");
+    public static final DecimalFormat decimalFormat = new DecimalFormat("0.00'€'");
 
     public CarroCompra() {
         this.productos = new LinkedHashMap<>();
@@ -98,4 +98,33 @@ public class CarroCompra {
             return p1.getNombre().compareTo(p2.getNombre());
         }
     }
+
+    public String buscarNombrePorCodigoBarras(String codigoBarras) {
+        return productos.entrySet().stream()  // Convertimos el conjunto de entradas del mapa a un stream
+                .filter(entry -> entry.getKey().equals(codigoBarras))  // Filtramos por el código de barras
+                .map(entry -> entry.getValue().getProducto().getNombre())  // Extraemos el nombre del producto
+                .findFirst()  // Encontramos el primer (y supuestamente único) nombre que coincida
+                .orElse("Producto no encontrado");  // Si no hay coincidencia, retornamos este mensaje
+    }
+
+    public static String obtenerTipoProducto(Producto producto) {
+        if (producto instanceof Alimentacion) {
+            return "Alimentación";
+        } else if (producto instanceof Textil) {
+            return "Textil";
+        } else if (producto instanceof Electronica) {
+            return "Electrónica";
+        } else {
+            return "Desconocido";
+        }
+    }
+
+    public ProductoCarrito buscarProductoPorCodigo(String codigoBarras) {
+        return productos.entrySet().stream()
+                .filter(entry -> entry.getKey().equals(codigoBarras))
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(null);
+    }
+
 }
