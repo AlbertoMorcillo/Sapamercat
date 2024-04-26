@@ -8,7 +8,19 @@ public class Alimentacion extends Producto {
 
     public Alimentacion(String nombre, double precio, String codiBarres, String dataCaducitat) {
         super(nombre, precio, codiBarres);
+        if (nombre == null || nombre.isEmpty()) {
+            throw new IllegalArgumentException("Nombre no puede ser nulo o vacío.");
+        }
+        if (precio <= 0) {
+            throw new IllegalArgumentException("Precio debe ser un número positivo.");
+        }
+        if (codiBarres == null || codiBarres.isEmpty()) {
+            throw new IllegalArgumentException("Código de barras no puede ser nulo o vacío.");
+        }
         this.dataCaducitat = dataCaducitat;
+        if (!fechaValida(dataCaducitat)) {
+            throw new IllegalArgumentException("Fecha de caducidad no válida.");
+        }
     }
 
     @Override
@@ -41,7 +53,19 @@ public class Alimentacion extends Producto {
     }
 
     public void setDataCaducitat(String dataCaducitat) {
-        this.dataCaducitat = dataCaducitat;
+        if (fechaValida(dataCaducitat)) {
+            this.dataCaducitat = dataCaducitat;
+        } else {
+            throw new IllegalArgumentException("Fecha de caducidad no válida.");
+        }
     }
+
+
+    static boolean fechaValida(String data) {
+        LocalDate fecha = LocalDate.parse(data, formatter);
+        return !fecha.isBefore(LocalDate.now());
+    }
+
+
 
 }

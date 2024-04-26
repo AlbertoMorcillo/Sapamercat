@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -9,163 +10,332 @@ public class Main {
     }
 
     public static void mostrarMenuInicial() {
-        int opcion;
+        int opcion = -1;
         do {
-            System.out.println("\n--------MENU INICIAL--------");
-            System.out.println("1. Introduir producte");
-            System.out.println("2. Passar per caixa");
-            System.out.println("3. Mostrar carrito de compra");
-            System.out.println("4. Buscar producte per codi de barres(se mostrará unicamente el nombre del producto)");
-            System.out.println("5. Buscar producte per codi de barres(se mostrará toda la información del producto)");
-            System.out.println("0. Acabar");
-            System.out.print("\nElije qué quieres hacer: ");
+            try {
+                System.out.println("\n--------MENU INICIAL--------");
+                System.out.println("1. Introducir producto");
+                System.out.println("2. Pasar por caja");
+                System.out.println("3. Mostrar carrito de compra");
+                System.out.println("4. Buscar producto por código de barras (se mostrará únicamente el nombre del producto)");
+                System.out.println("5. Buscar producto por código de barras (se mostrará toda la información del producto)");
+                System.out.println("0. Acabar");
+                System.out.print("\nElige qué quieres hacer: ");
 
-            opcion = scan.nextInt();
-            scan.nextLine();
+                opcion = scan.nextInt();
+                scan.nextLine(); // Limpiar el búfer
 
-            switch (opcion) {
-                case 1:
-                    mostrarMenuIntroducirProducto();
-                    break;
-                case 2:
-                    carroCompra.pasarPorCaja();
-                    break;
-                case 3:
-                    carroCompra.mostrarCarro();
-                    break;
-                case 4:
-                    buscarProductoPorCodigoBarras();
-                    break;
-                case 5:
-                    buscarProductoConMasInfoPorCodigoBarras();
-                    break;
-                case 0:
-                    System.out.println("Sortint de l'aplicació...");
-                    break;
-                default:
-                    System.out.println("ATENCIÓ!!! \nHa de ser un valor entre 0 i 4");
+                switch (opcion) {
+                    case 1:
+                        mostrarMenuIntroducirProducto();
+                        break;
+                    case 2:
+                        carroCompra.pasarPorCaja();
+                        break;
+                    case 3:
+                        carroCompra.mostrarCarro();
+                        break;
+                    case 4:
+                        buscarProductoPorCodigoBarras();
+                        break;
+                    case 5:
+                        buscarProductoConMasInfoPorCodigoBarras();
+                        break;
+                    case 0:
+                        System.out.println("Saliendo de la aplicación...");
+                        break;
+                    default:
+                        System.out.println("¡ATENCIÓN! Debe ser un valor entre 0 y 5.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Entrada inválida. Por favor, introduce un número entero.");
+                scan.nextLine(); // Limpiar el búfer
             }
         } while (opcion != 0);
     }
 
     public static void mostrarMenuIntroducirProducto() {
-        int opcionProducto;
+        int opcionProducto = -1;
         do {
-            System.out.println("\n--------PRODUCTE--------");
-            System.out.println("Quin tipus de producte vols introduir?");
-            System.out.println("1. Alimentació");
-            System.out.println("2. Tèxtil");
-            System.out.println("3. Electrònica");
-            System.out.println("0. Tornar enrere");
-            System.out.print("\nElije qué quieres hacer: ");
+            try {
+                System.out.println("\n--------PRODUCTO--------");
+                System.out.println("¿Qué tipo de producto quieres introducir?");
+                System.out.println("1. Alimentación");
+                System.out.println("2. Textil");
+                System.out.println("3. Electrónica");
+                System.out.println("0. Volver atrás");
+                System.out.print("\nElige qué quieres hacer: ");
 
-            opcionProducto = scan.nextInt();
-            scan.nextLine();
+                opcionProducto = scan.nextInt();
+                scan.nextLine(); // Limpiar el búfer
 
-            switch (opcionProducto) {
-                case 1:
-                    añadirProductoAlimentacion();
-                    break;
-                case 2:
-                    añadirProductoTextil();
-                    break;
-                case 3:
-                    añadirProductoElectronica();
-                    break;
-                case 0:
-                    break;
-                default:
-                    System.out.println("ATENCIÓ!!! \nHa de ser un valor entre 0 i 3");
+                switch (opcionProducto) {
+                    case 1:
+                        añadirProductoAlimentacion();
+                        break;
+                    case 2:
+                        añadirProductoTextil();
+                        break;
+                    case 3:
+                        añadirProductoElectronica();
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("¡ATENCIÓN! Debe ser un valor entre 0 y 3.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Entrada inválida. Por favor, introduce un número entero.");
+                scan.nextLine(); // Limpiar el búfer
             }
         } while (opcionProducto != 0);
     }
 
     private static void añadirProductoAlimentacion() {
-        System.out.print("Nom del producte: ");
-        String nombre = scan.nextLine();
-        System.out.print("Preu: ");
-        double precio = scan.nextDouble();
-        scan.nextLine();
-        System.out.print("Codi de barres: ");
-        String codigo = "A" + scan.nextLine();
-        System.out.print("Data de caducitat (dd/MM/yyyy): ");
-        String dataCaducitat = scan.nextLine();
+        boolean completado = false;
+        do {
+            System.out.print("Nombre del producto: ");
+            String nombre = scan.nextLine();
+            if (nombre.isEmpty()) {
+                System.out.println("El nombre del producto no puede estar vacío.");
+                continue;
+            }
 
-        Alimentacion alimentacion = new Alimentacion(nombre, precio, codigo, dataCaducitat);
-        carroCompra.añadirProducto(alimentacion);
-        System.out.println("Producte afegit amb èxit.");
+            double precio = 0;
+            boolean precioValido = false;
+            while (!precioValido) {
+                try {
+                    System.out.print("Precio: ");
+                    precio = scan.nextDouble();
+                    scan.nextLine(); // Limpiar el búfer
+                    if (precio <= 0) {
+                        throw new IllegalArgumentException("El precio debe ser un número positivo.");
+                    }
+                    precioValido = true;
+                } catch (InputMismatchException e) {
+                    System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
+                    scan.nextLine(); // Limpiar el búfer
+                } catch (IllegalArgumentException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            System.out.print("Código de barras: ");
+            String codigoBarras = scan.nextLine();
+            if (codigoBarras.isEmpty()) {
+                System.out.println("El código de barras no puede estar vacío.");
+                continue;
+            }
+
+
+            String fechaCaducidad = "";
+            boolean fechaCaducidadValida = false;
+            while (!fechaCaducidadValida) {
+                System.out.print("Fecha de caducidad (dd/MM/yyyy): ");
+                fechaCaducidad = scan.nextLine();
+                if (Alimentacion.fechaValida(fechaCaducidad)) {
+                    fechaCaducidadValida = true;
+                } else {
+                    System.out.println("La fecha de caducidad no es válida o es anterior a la fecha actual.");
+                }
+            }
+
+            try {
+                Alimentacion alimentacion = new Alimentacion(nombre, precio, codigoBarras, fechaCaducidad);
+                carroCompra.añadirProducto(alimentacion);
+                System.out.println("Producto añadido con éxito.");
+                completado = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                // No cambio la bandera 'completado', para que el bucle permitirá reintentar
+            }
+        } while (!completado);
     }
 
     private static void añadirProductoTextil() {
-        System.out.print("Nom del producte: ");
-        String nombre = scan.nextLine();
-        System.out.print("Preu: ");
-        double precio = scan.nextDouble();
-        scan.nextLine();
-        System.out.print("Codi de barres: ");
-        String codigo = "T" + scan.nextLine();
-        System.out.print("Composició tèxtil: ");
-        String composicion = scan.nextLine();
+        boolean completado = false;
+        do {
+            try {
+                System.out.print("Nombre del producto: ");
+                String nombre = scan.nextLine();
+                if (nombre.isEmpty()) {
+                    System.out.println("El nombre del producto no puede estar vacío.");
+                    continue;
+                }
 
-        Textil textil = new Textil(nombre, precio, codigo, composicion);
-        carroCompra.añadirProducto(textil);
-        System.out.println("Producte afegit amb èxit.");
+                double precio = 0;
+                boolean precioValido = false;
+                while (!precioValido) {
+                    try {
+                        System.out.print("Precio: ");
+                        precio = scan.nextDouble();
+                        scan.nextLine(); // Limpiar el búfer
+                        if (precio <= 0) {
+                            throw new IllegalArgumentException("El precio debe ser un número positivo.");
+                        }
+                        precioValido = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
+                        scan.nextLine(); // Limpiar el búfer
+                    }
+                }
+
+                System.out.print("Código de barras: ");
+                String codigoBarras = scan.nextLine();
+                if (codigoBarras.isEmpty()) {
+                    System.out.println("El código de barras no puede estar vacío.");
+                    continue;
+                }
+
+                System.out.print("Composición textil: ");
+                String composicion = scan.nextLine();
+                if (composicion.isEmpty() || !composicion.matches("[^\\d]+")) {
+                    System.out.println("La composición textil no puede estar vacía ni contener números.");
+                    continue;
+                }
+
+
+                Textil textil = new Textil(nombre, precio, codigoBarras, composicion);
+                carroCompra.añadirProducto(textil);
+                System.out.println("Producto añadido con éxito.");
+                completado = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                // No cambio la bandera 'completado', para que el bucle permitirá reintentar
+            }
+        } while (!completado);
     }
 
     private static void añadirProductoElectronica() {
-        System.out.print("Nom del producte: ");
-        String nombre = scan.nextLine();
-        System.out.print("Preu: ");
-        double precio = scan.nextDouble();
-        scan.nextLine();
-        System.out.print("Codi de barres: ");
-        String codigo = "E" + scan.nextLine();
-        System.out.print("Dies de garantia: ");
-        int diasGarantia = scan.nextInt();
-        scan.nextLine();
+        boolean completado = false;
+        do {
+            try {
+                System.out.print("Nombre del producto: ");
+                String nombre = scan.nextLine();
+                if (nombre.isEmpty()) {
+                    System.out.println("El nombre del producto no puede estar vacío.");
+                    continue;
+                }
 
-        Electronica electronica = new Electronica(nombre, precio, codigo, diasGarantia);
-        carroCompra.añadirProducto(electronica);
-        System.out.println("Producte afegit amb èxit.");
+                double precio = 0;
+                boolean precioValido = false;
+                while (!precioValido) {
+                    try {
+                        System.out.print("Precio: ");
+                        precio = scan.nextDouble();
+                        scan.nextLine(); // Limpiar el búfer
+                        if (precio <= 0) {
+                            throw new IllegalArgumentException("El precio debe ser un número positivo.");
+                        }
+                        precioValido = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
+                        scan.nextLine(); // Limpiar el búfer
+                    }
+                }
+
+                System.out.print("Código de barras: ");
+                String codigoBarras = scan.nextLine();
+                if (codigoBarras.isEmpty()) {
+                    System.out.println("El código de barras no puede estar vacío.");
+                    continue;
+                }
+
+                int diasGarantia = -1;
+                boolean diasGarantiaValidos = false;
+                while (!diasGarantiaValidos) {
+                    try {
+                        System.out.print("Días de garantía: ");
+                        diasGarantia = scan.nextInt();
+                        scan.nextLine(); // Limpiar el búfer
+                        if (diasGarantia < 0) {
+                            throw new IllegalArgumentException("Los días de garantía no pueden ser negativos.");
+                        }
+                        diasGarantiaValidos = true;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Error: Entrada inválida. Introduce un número entero válido para los días de garantía.");
+                        scan.nextLine(); // Limpiar el búfer
+                    }
+                }
+
+                Electronica electronica = new Electronica(nombre, precio, codigoBarras, diasGarantia);
+                carroCompra.añadirProducto(electronica);
+                System.out.println("Producto añadido con éxito.");
+                completado = true;
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+                // No cambio la bandera 'completado', para que el bucle permitirá reintentar
+            }
+        } while (!completado);
     }
+
 
     private static void buscarProductoPorCodigoBarras() {
-        System.out.print("Introduce el código de barras del producto (Recuerda que tienes que poner al inicio la letra A si es alimentación, T si es textil y E es Electronica): ");
-        String codigo = scan.nextLine();
-        String nombreProducto = carroCompra.buscarNombrePorCodigoBarras(codigo);
-        System.out.println("Nombre del producto: " + nombreProducto);
-    }
-    private static void buscarProductoConMasInfoPorCodigoBarras() {
-        System.out.print("Introduce el código de barras del producto: ");
-        String codigo = scan.nextLine();
-        ProductoCarrito productoCarrito = carroCompra.buscarProductoPorCodigo(codigo);
+        boolean completado = false;
+        do {
+            System.out.print("Introduce el código de barras del producto: ");
+            String codigo = scan.nextLine();
 
-        if (productoCarrito != null) {
-            Producto producto = productoCarrito.getProducto();
-            int cantidad = productoCarrito.getCantidad();
-            double precioUnitario = producto.calcularPrecio();
-            double precioTotal = precioUnitario * cantidad;
-
-            String tipoProducto = CarroCompra.obtenerTipoProducto(producto);
-            String infoEspecifica = "";
-
-            if (producto instanceof Textil) {
-                infoEspecifica = "Composición textil: " + ((Textil) producto).getComposicion();
-            } else if (producto instanceof Electronica) {
-                infoEspecifica = "Días de garantía1: " + ((Electronica) producto).getDiasGarantia();
-            } else if (producto instanceof Alimentacion) {
-                infoEspecifica = "Días hasta caducidad: " + ((Alimentacion) producto).diasHastaCaducidad();
+            String nombreProducto = carroCompra.buscarNombrePorCodigoBarras(codigo);
+            if (nombreProducto != null && !nombreProducto.isEmpty()) {
+                System.out.println("Nombre del producto: " + nombreProducto);
+                completado = true;
+            } else {
+                System.out.println("Producto no encontrado con el código de barras: " + codigo);
+                System.out.print("¿Deseas intentar otra búsqueda? (s/n): ");
+                if (!scan.nextLine().trim().toLowerCase().startsWith("s")) {
+                    completado = true;
+                }
             }
-
-            System.out.println("Nombre del producto: " + producto.getNombre());
-            System.out.println("Cantidad: " + cantidad);
-            System.out.println("Tipo de producto: " + tipoProducto);
-            System.out.println("Precio unitario: " + CarroCompra.decimalFormat.format(precioUnitario));
-            System.out.println("Precio total: " + CarroCompra.decimalFormat.format(precioTotal));
-            System.out.println(infoEspecifica);
-        } else {
-            System.out.println("Producto no encontrado con el código de barras: " + codigo);
-        }
+        } while (!completado);
     }
+
+    private static void buscarProductoConMasInfoPorCodigoBarras() {
+        boolean completado = false;
+        do {
+            System.out.print("Introduce el código de barras del producto: ");
+            String codigo = scan.nextLine();
+
+            ProductoCarrito productoCarrito = carroCompra.buscarProductoPorCodigo(codigo);
+            if (productoCarrito != null) {
+                // Extracción de información del producto y su presentación
+                presentarInformacionProducto(productoCarrito);
+                completado = true;
+            } else {
+                System.out.println("Producto no encontrado con el código de barras: " + codigo);
+                System.out.print("¿Deseas intentar otra búsqueda? (s/n): ");
+                if (!scan.nextLine().trim().toLowerCase().startsWith("s")) {
+                    completado = true;
+                }
+            }
+        } while (!completado);
+    }
+
+    private static void presentarInformacionProducto(ProductoCarrito productoCarrito) {
+        Producto producto = productoCarrito.getProducto();
+        int cantidad = productoCarrito.getCantidad();
+        double precioUnitario = producto.calcularPrecio();
+        double precioTotal = precioUnitario * cantidad;
+
+        String tipoProducto = CarroCompra.obtenerTipoProducto(producto);
+        String infoEspecifica = "";
+
+        if (producto instanceof Textil) {
+            infoEspecifica = "Composición textil: " + ((Textil) producto).getComposicion();
+        } else if (producto instanceof Electronica) {
+            infoEspecifica = "Días de garantía: " + ((Electronica) producto).getDiasGarantia();
+        } else if (producto instanceof Alimentacion) {
+            infoEspecifica = "Días hasta caducidad: " + ((Alimentacion) producto).diasHastaCaducidad();
+        }
+
+        System.out.println("Nombre del producto: " + producto.getNombre());
+        System.out.println("Cantidad: " + cantidad);
+        System.out.println("Tipo de producto: " + tipoProducto);
+        System.out.println("Precio unitario: " + CarroCompra.decimalFormat.format(precioUnitario));
+        System.out.println("Precio total: " + CarroCompra.decimalFormat.format(precioTotal));
+        System.out.println(infoEspecifica);
+    }
+
+
 
 }
