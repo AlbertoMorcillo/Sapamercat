@@ -109,30 +109,7 @@ public class Main {
                 continue;
             }
 
-            double precio = 0;
-            boolean precioValido = false;
-            while (!precioValido) {
-                System.out.print("Precio: ");
-                String precioInput = scan.nextLine(); //Lo guardo como String para detectar si esta vacio o no
-                if (precioInput.isEmpty()) {
-                    System.out.println("El precio no puede estar vacío.");
-                    continue;
-                }
-                try {
-                    precio = Double.parseDouble(precioInput); // Lo pasamos a double
-                    if (precio <= 0) {
-                        throw new IllegalArgumentException("El precio debe ser un número positivo.");
-                    }
-                    precioValido = true;
-                } catch (NumberFormatException e) {
-                    System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
-                } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage());
-                } catch (Exception e) {
-                    System.out.println("Ocurrió un error genérico.");
-                    CarroCompra.logException(e); // Esto también registrará la excepción
-                }
-            }
+            double precio = obtenerPrecioValido();
 
             System.out.print("Código de barras: ");
             String codigoBarras = scan.nextLine();
@@ -180,30 +157,7 @@ public class Main {
                     continue;
                 }
 
-                double precio = 0;
-                boolean precioValido = false;
-                while (!precioValido) {
-                    System.out.print("Precio: ");
-                    String precioInput = scan.nextLine(); //Lo guardo como String para detectar si esta vacio o no
-                    if (precioInput.isEmpty()) {
-                        System.out.println("El precio no puede estar vacío.");
-                        continue;
-                    }
-                    try {
-                        precio = Double.parseDouble(precioInput); // Lo pasamos a double
-                        if (precio <= 0) {
-                            throw new IllegalArgumentException("El precio debe ser un número positivo.");
-                        }
-                        precioValido = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
-                    } catch (Exception e) {
-                        System.out.println("Ocurrió un error genérico.");
-                        CarroCompra.logException(e); // Esto también registrará la excepción
-                    }
-                }
+                double precio = obtenerPrecioValido();
 
                 System.out.print("Código de barras: ");
                 String codigoBarras = scan.nextLine();
@@ -245,30 +199,7 @@ public class Main {
                     continue;
                 }
 
-                double precio = 0;
-                boolean precioValido = false;
-                while (!precioValido) {
-                    System.out.print("Precio: ");
-                    String precioInput = scan.nextLine(); //Lo guardo como String para detectar si esta vacio o no
-                    if (precioInput.isEmpty()) {
-                        System.out.println("El precio no puede estar vacío.");
-                        continue;
-                    }
-                    try {
-                        precio = Double.parseDouble(precioInput); // Lo pasamos a double
-                        if (precio <= 0) {
-                            throw new IllegalArgumentException("El precio debe ser un número positivo.");
-                        }
-                        precioValido = true;
-                    } catch (NumberFormatException e) {
-                        System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
-                    } catch (Exception e) {
-                        System.out.println("Ocurrió un error genérico.");
-                        CarroCompra.logException(e); // Esto también registrará la excepción
-                    }
-                }
+                double precio = obtenerPrecioValido();
 
                 System.out.print("Código de barras: ");
                 String codigoBarras = scan.nextLine();
@@ -311,7 +242,7 @@ public class Main {
         } while (!completado);
     }
 
-
+    // Método para buscar un producto por código de barras y mostrar solo el nombre del producto.
     private static void buscarProductoPorCodigoBarras() {
         boolean completado = false;
         do {
@@ -332,6 +263,7 @@ public class Main {
         } while (!completado);
     }
 
+    // Método para buscar un producto por código de barras y mostrar toda la información del producto.
     private static void buscarProductoConMasInfoPorCodigoBarras() {
         boolean completado = false;
         do {
@@ -353,6 +285,7 @@ public class Main {
         } while (!completado);
     }
 
+    // Método para presentar la información de un producto en el carrito de compra de forma detallada
     private static void presentarInformacionProducto(ProductoCarrito productoCarrito) {
         Producto producto = productoCarrito.getProducto();
         int cantidad = productoCarrito.getCantidad();
@@ -378,6 +311,33 @@ public class Main {
         System.out.println(infoEspecifica);
     }
 
-
+    //Hice este método para evitar repetir código ya que se necesita obtener un precio válido en todos los productos
+    private static double obtenerPrecioValido() {
+        double precio = 0;
+        boolean precioValido = false;
+        while (!precioValido) {
+            System.out.print("Precio: ");
+            String precioInput = scan.nextLine(); //Lo guardo como String para detectar si esta vacio o no
+            if (precioInput.isEmpty()) {
+                System.out.println("El precio no puede estar vacío.");
+                continue;
+            }
+            try {
+                precio = Double.parseDouble(precioInput); // Lo pasamos a double
+                if (precio <= 0) {
+                    throw new IllegalArgumentException("El precio debe ser un número positivo.");
+                }
+                precioValido = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error genérico.");
+                CarroCompra.logException(e); // Esto también registrará la excepción
+            }
+        }
+        return precio;
+    }
 
 }

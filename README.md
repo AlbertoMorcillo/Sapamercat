@@ -63,3 +63,15 @@ E1234
 Tengo en cuenta para buscar por código de barras porque tendrás que añadir: A, T o E antes del código de barras para que pueda buscarlo correctamente.
 En nuestro ejemplo: A1234, T1234, E1234
 
+## Actualización de precios de productos textiles
+
+La clase `CarroCompra` contiene un método llamado `actualizarPreciosTextil()`. Este método se encarga de actualizar los precios de los productos textiles. 
+Lee un archivo llamado `UpdateTextilPrices.dat`, que que contiene los códigos de barras de los productos textiles y sus nuevos precios. 
+Para cada línea en el archivo, el método extrae el código de barras y el nuevo precio, busca el producto correspondiente en el carrito de compras y, 
+si el producto es de tipo Textil, actualiza su precio. También se le notifica al usuario de que el precio del producto se ha actualizado.
+
+## Registro de excepciones
+
+La clase `CarroCompra` también contiene un método para registrar las excepciones que ocurren durante la ejecución del programa. 
+El método `logException(Exception e)` escribe la excepción en un archivo llamado `Excepcions.dat`.
+Cada entrada en el archivo de registro contiene el mensaje de la excepción y el seguimiento de la pila de la excepción.

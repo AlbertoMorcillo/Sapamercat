@@ -17,11 +17,13 @@ import java.nio.file.StandardOpenOption;
 
 
 public class CarroCompra {
+    // El map se utiliza para almacenar los productos en el carro, con el código de barras como clave
     private Map<String, ProductoCarrito> productos;
     public static final DecimalFormat decimalFormat = new DecimalFormat("0.00'€'");
     private static final Path updatesPath = Paths.get(".\\updates");
     private static final Path logsPath = Paths.get(".\\logs");
 
+    // Bloque estático para crear los directorios de actualizaciones y logs si no existen
     static {
         try {
             if (!Files.exists(updatesPath)) {
@@ -155,6 +157,7 @@ public class CarroCompra {
                 .orElse(null);
     }
 
+    // Método para actualizar los precios de los productos textiles.
     public void actualizarPreciosTextil() {
         Path path = updatesPath.resolve("UpdateTextilPrices.dat");
         if (!Files.exists(path)) {
@@ -198,8 +201,9 @@ public class CarroCompra {
         }
     }
 
+    // Método para registrar excepciones en un archivo de log
     public static void logException(Exception e) {
-        Path logFile = logsPath.resolve("Exepcions.dat");
+        Path logFile = logsPath.resolve("Excepcions.dat");
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(logFile, StandardOpenOption.CREATE, StandardOpenOption.APPEND))) {
             writer.println("Exception occurred: " + e.getMessage());
             e.printStackTrace(writer);
