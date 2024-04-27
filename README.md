@@ -1,4 +1,4 @@
-# Sapamercat
+# Sapamercat creado por Alberto Morcillo Montejo
 
 ## Clases
 
