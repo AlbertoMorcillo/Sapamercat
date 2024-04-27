@@ -1,0 +1,10 @@
+Exception occurred: Text '14081993' could not be parsed at index 2
+java.time.format.DateTimeParseException: Text '14081993' could not be parsed at index 2
+	at java.base/java.time.format.DateTimeFormatter.parseResolved0(DateTimeFormatter.java:2106)
+	at java.base/java.time.format.DateTimeFormatter.parse(DateTimeFormatter.java:2008)
+	at java.base/java.time.LocalDate.parse(LocalDate.java:435)
+	at Alimentacion.fechaValida(Alimentacion.java:65)
+	at Main.añadirProductoAlimentacion(Main.java:150)
+	at Main.mostrarMenuIntroducirProducto(Main.java:79)
+	at Main.mostrarMenuInicial(Main.java:31)
+	at Main.main(Main.java:10)
