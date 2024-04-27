@@ -6,10 +6,35 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.text.DecimalFormat;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
 
 public class CarroCompra {
     private Map<String, ProductoCarrito> productos;
     public static final DecimalFormat decimalFormat = new DecimalFormat("0.00'€'");
+    private static final Path updatesPath = Paths.get(".\\updates");
+    private static final Path logsPath = Paths.get(".\\logs");
+
+    static {
+        try {
+            if (!Files.exists(updatesPath)) {
+                Files.createDirectories(updatesPath);
+            }
+            if (!Files.exists(logsPath)) {
+                Files.createDirectories(logsPath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            logException(e);
+        }
+    }
 
     public CarroCompra() {
         this.productos = new LinkedHashMap<>();
@@ -127,4 +152,52 @@ public class CarroCompra {
                 .orElse(null);
     }
 
+    public void actualizarPreciosTextil() {
+        Path path = updatesPath.resolve("UpdateTextilPrices.dat");
+        if (!Files.exists(path)) {
+            System.out.println("El archivo de actualización de precios no existe.");
+            return;
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(path.toFile()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\s+");
+                if (parts.length != 2) {
+                    System.out.println("Formato de línea incorrecto: " + line);
+                    continue;
+                }
+
+                String codigoBarras = parts[0];
+                double nuevoPrecio;
+                try {
+                    nuevoPrecio = Double.parseDouble(parts[1]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Precio no válido en la línea: " + line);
+                    logException(e);
+                    continue;
+                }
+
+                ProductoCarrito productoCarrito = buscarProductoPorCodigo(codigoBarras);
+                if (productoCarrito != null && productoCarrito.getProducto() instanceof Textil) {
+                    productoCarrito.getProducto().setPrecio(nuevoPrecio);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo de actualización de precios.");
+            logException(e);
+        }
+    }
+
+    private static void logException(Exception e) {
+        Path logFile = logsPath.resolve("errors.log");
+        try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(logFile, StandardOpenOption.CREATE, StandardOpenOption.APPEND))) {
+            writer.println("Exception occurred: " + e.getMessage());
+            e.printStackTrace(writer);
+        } catch (IOException ex) {
+            System.out.println("No se pudo escribir en el archivo de log.");
+            ex.printStackTrace();
+        }
+    }
 }
+

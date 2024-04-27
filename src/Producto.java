@@ -17,7 +17,15 @@ public abstract class Producto {
 
     // Setters
     public void setNombre(String nombre) { this.nombre = nombre; }
-    public void setPrecio(double precio) { this.precio = precio; }
+    public void setPrecio(double precio) {
+        if (precio <= 0) {
+            throw new IllegalArgumentException("El precio debe ser un número positivo.");
+        }
+        if (String.valueOf(precio).length() > 15) {
+            throw new IllegalArgumentException("El nombre del producto no puede exceder los 15 caracteres.");
+        }
+        this.precio = precio;
+    }
     public void setCodigoBarras(String codigoBarras) { this.codigoBarras = codigoBarras; }
 
     // Mètode abstracte que cada subclasse implementarà

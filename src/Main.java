@@ -30,6 +30,7 @@ public class Main {
                         mostrarMenuIntroducirProducto();
                         break;
                     case 2:
+                        carroCompra.actualizarPreciosTextil();
                         carroCompra.pasarPorCaja();
                         break;
                     case 3:
