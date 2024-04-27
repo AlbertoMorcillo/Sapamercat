@@ -1,6 +1,7 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+
 public class Main {
     static Scanner scan = new Scanner(System.in);
     static CarroCompra carroCompra = new CarroCompra(); // Carro de compra global
@@ -51,6 +52,9 @@ public class Main {
             } catch (InputMismatchException e) {
                 System.out.println("Error: Entrada inválida. Por favor, introduce un número entero.");
                 scan.nextLine(); // Limpiar el búfer
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error genérico.");
+                CarroCompra.logException(e); // Esto también registrará la excepción
             }
         } while (opcion != 0);
     }
@@ -88,6 +92,9 @@ public class Main {
             } catch (InputMismatchException e) {
                 System.out.println("Error: Entrada inválida. Por favor, introduce un número entero.");
                 scan.nextLine(); // Limpiar el búfer
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error genérico.");
+                CarroCompra.logException(e); // Esto también registrará la excepción
             }
         } while (opcionProducto != 0);
     }
@@ -118,6 +125,9 @@ public class Main {
                     scan.nextLine(); // Limpiar el búfer
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
+                } catch (Exception e) {
+                    System.out.println("Ocurrió un error genérico.");
+                    CarroCompra.logException(e); // Esto también registrará la excepción
                 }
             }
 
@@ -149,6 +159,9 @@ public class Main {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 // No cambio la bandera 'completado', para que el bucle permitirá reintentar
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error genérico.");
+                CarroCompra.logException(e); // Esto también registrará la excepción
             }
         } while (!completado);
     }
@@ -178,6 +191,9 @@ public class Main {
                     } catch (InputMismatchException e) {
                         System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
                         scan.nextLine(); // Limpiar el búfer
+                    } catch (Exception e) {
+                        System.out.println("Ocurrió un error genérico.");
+                        CarroCompra.logException(e); // Esto también registrará la excepción
                     }
                 }
 
@@ -203,6 +219,9 @@ public class Main {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 // No cambio la bandera 'completado', para que el bucle permitirá reintentar
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error genérico.");
+                CarroCompra.logException(e); // Esto también registrará la excepción
             }
         } while (!completado);
     }
@@ -232,6 +251,9 @@ public class Main {
                     } catch (InputMismatchException e) {
                         System.out.println("Error: Entrada inválida. Introduce un número válido para el precio.");
                         scan.nextLine(); // Limpiar el búfer
+                    } catch (Exception e) {
+                        System.out.println("Ocurrió un error genérico.");
+                        CarroCompra.logException(e); // Esto también registrará la excepción
                     }
                 }
 
@@ -256,6 +278,9 @@ public class Main {
                     } catch (InputMismatchException e) {
                         System.out.println("Error: Entrada inválida. Introduce un número entero válido para los días de garantía.");
                         scan.nextLine(); // Limpiar el búfer
+                    } catch (Exception e) {
+                        System.out.println("Ocurrió un error genérico.");
+                        CarroCompra.logException(e); // Esto también registrará la excepción
                     }
                 }
 
@@ -266,6 +291,9 @@ public class Main {
             } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
                 // No cambio la bandera 'completado', para que el bucle permitirá reintentar
+            } catch (Exception e) {
+                System.out.println("Ocurrió un error genérico.");
+                CarroCompra.logException(e); // Esto también registrará la excepción
             }
         } while (!completado);
     }

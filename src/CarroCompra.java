@@ -33,6 +33,9 @@ public class CarroCompra {
         } catch (IOException e) {
             e.printStackTrace();
             logException(e);
+        } catch (Exception e) {
+            System.out.println("Ocurrió un error genérico.");
+            logException(e); // Esto también registrará la excepción
         }
     }
 
@@ -180,17 +183,23 @@ public class CarroCompra {
 
                 ProductoCarrito productoCarrito = buscarProductoPorCodigo(codigoBarras);
                 if (productoCarrito != null && productoCarrito.getProducto() instanceof Textil) {
+                    System.out.println("Actualizando precio para el código de producto: " + codigoBarras + " de " + productoCarrito.getProducto().getPrecio() + " a " + nuevoPrecio);
                     productoCarrito.getProducto().setPrecio(nuevoPrecio);
+                } else {
+                    System.out.println("No se encontró producto Textil con el código: " + codigoBarras);
                 }
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo de actualización de precios.");
             logException(e);
+        } catch (Exception e) {
+        System.out.println("Ocurrió un error genérico.");
+        logException(e); // Esto también registrará la excepción
         }
     }
 
-    private static void logException(Exception e) {
-        Path logFile = logsPath.resolve("errors.log");
+    public static void logException(Exception e) {
+        Path logFile = logsPath.resolve("Exepcions.dat");
         try (PrintWriter writer = new PrintWriter(Files.newBufferedWriter(logFile, StandardOpenOption.CREATE, StandardOpenOption.APPEND))) {
             writer.println("Exception occurred: " + e.getMessage());
             e.printStackTrace(writer);
